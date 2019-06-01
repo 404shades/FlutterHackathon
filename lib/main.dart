@@ -4,8 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hackathon/authentication/authentication.dart';
 import 'package:flutter_hackathon/common/loading_indicator.dart';
-import 'package:flutter_hackathon/home/home_page.dart';
-import 'package:flutter_hackathon/login/login_page.dart';
+import 'package:flutter_hackathon/home/home.dart';
+import 'package:flutter_hackathon/login/login.dart';
 import 'package:flutter_hackathon/splash/splash_page.dart';
 import 'package:flutter_hackathon/user_repositroy.dart';
 
@@ -66,6 +66,8 @@ class _AppState extends State<App> {
     return BlocProvider<AuthenticationBloc>(
       bloc: _authenticationBloc,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: 'Product'),
         home: BlocBuilder<AuthenticationEvent, AuthenticationState>(
           bloc: _authenticationBloc,
           builder: (BuildContext context, AuthenticationState state) {
