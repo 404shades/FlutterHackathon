@@ -1,50 +1,89 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hackathon/authentication/authentication.dart';
+import 'package:flutter_hackathon/common/loading_indicator.dart';
+import 'package:flutter_hackathon/home/home_page.dart';
+import 'package:flutter_hackathon/login/login_page.dart';
+import 'package:flutter_hackathon/splash/splash_page.dart';
+import 'package:flutter_hackathon/user_repositroy.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
+class SimpleBlocDelegate extends BlocDelegate {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+  void onEvent(Bloc bloc, Object event) {
+    super.onEvent(bloc, event);
+    print(event);
+  }
 
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+
+  @override
+  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+    super.onError(bloc, error, stacktrace);
+    print(error);
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(App(userRepository: UserRepository()));
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class App extends StatefulWidget {
+  final UserRepository userRepository;
+
+  App({Key key, @required this.userRepository}) : super(key: key);
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  AuthenticationBloc _authenticationBloc;
+  UserRepository get _userRepository => widget.userRepository;
+
+  @override
+  void initState() {
+    _authenticationBloc = AuthenticationBloc(userRepository: _userRepository);
+    _authenticationBloc.dispatch(AppStarted());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authenticationBloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+    return BlocProvider<AuthenticationBloc>(
+      bloc: _authenticationBloc,
+      child: MaterialApp(
+        home: BlocBuilder<AuthenticationEvent, AuthenticationState>(
+          bloc: _authenticationBloc,
+          builder: (BuildContext context, AuthenticationState state) {
+            if (state is AuthenticationUninitialized) {
+              return SplashPage();
+            }
+            if (state is AuthenticationAuthenticated) {
+              return HomePage();
+            }
+            if (state is AuthenticationUnauthenticated) {
+              return LoginPage(userRepository: _userRepository);
+            }
+            if (state is AuthenticationLoading) {
+              return LoadingIndicator();
+            }
+          },
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
