@@ -5,7 +5,6 @@ import 'package:flutter_hackathon/authentication/authentication.dart';
 import 'package:flutter_hackathon/login/login.dart';
 import 'package:flutter_hackathon/user_repositroy.dart';
 
-
 class LoginPage extends StatefulWidget {
   final UserRepository userRepository;
 
@@ -36,9 +35,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LoginForm(
-        authenticationBloc: _authenticationBloc,
-        loginBloc: _loginBloc,
+      body: Stack(
+        children: <Widget>[
+
+          LoginForm(
+            authenticationBloc: _authenticationBloc,
+            loginBloc: _loginBloc,
+          ),
+        ],
       ),
     );
   }
