@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hackathon/authentication/authentication.dart';
+import 'package:flutter_hackathon/common/loading_indicator.dart';
+import 'package:flutter_hackathon/home/home.dart';
+import 'package:flutter_hackathon/login/login.dart';
+import 'package:flutter_hackathon/splash/splash_page.dart';
+import 'package:flutter_hackathon/user_repositroy.dart';
 
 
 class SimpleBlocDelegate extends BlocDelegate {
