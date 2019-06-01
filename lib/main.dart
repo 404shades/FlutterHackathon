@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hackathon/authentication/authentication.dart';
 import 'package:flutter_hackathon/common/loading_indicator.dart';
@@ -45,6 +46,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+
+  
   AuthenticationBloc _authenticationBloc;
   UserRepository get _userRepository => widget.userRepository;
 
@@ -60,9 +63,16 @@ class _AppState extends State<App> {
     _authenticationBloc.dispose();
     super.dispose();
   }
-
+ 
   @override
   Widget build(BuildContext context) {
+     SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.black,
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarDividerColor: Colors.transparent.withOpacity(0.7)));
     return BlocProvider<AuthenticationBloc>(
       bloc: _authenticationBloc,
       child: MaterialApp(
