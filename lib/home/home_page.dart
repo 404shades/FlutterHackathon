@@ -33,15 +33,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text("Flutter World",style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.black,
+        title: Text("Flutter World",style: TextStyle(color: Colors.white)),
         bottom: TabBar(
           unselectedLabelColor: Colors.grey,
           labelColor: Colors.white,
           indicatorSize: TabBarIndicatorSize.tab,
           indicator: BubbleTabIndicator(
             indicatorHeight: 25.0,
-            indicatorColor: Colors.black,
+            indicatorColor: Colors.blue,
             tabBarIndicatorSize: TabBarIndicatorSize.tab
           ),
           tabs: tabs,
