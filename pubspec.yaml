@@ -25,6 +25,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_bloc:
   equatable:
+  firebase_auth:
+  cloud_firestore:
+  firebase_storage:
+  firebase_ml_vision:
 
 dev_dependencies:
   flutter_test:
