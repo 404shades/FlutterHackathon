@@ -26,12 +26,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginLoading();
 
       try {
-        final token = await userRepository.authenticate(
-          username: event.username,
-          password: event.password,
-        );
+        final firebaser_user = await userRepository.signInWithGoogle();
 
-        authenticationBloc.dispatch(LoggedIn(token: token));
+        authenticationBloc.dispatch(LoggedIn(token: firebaser_user.uid));
         yield LoginInitial();
       } catch (error) {
         yield LoginFailure(error: error.toString());

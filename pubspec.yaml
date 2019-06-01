@@ -29,6 +29,9 @@ dependencies:
   cloud_firestore:
   firebase_storage:
   firebase_ml_vision:
+  flutter_auth_buttons:
+  hidden_drawer_menu:
+  google_sign_in:
 
 dev_dependencies:
   flutter_test:
